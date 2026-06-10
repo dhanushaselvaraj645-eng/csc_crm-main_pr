@@ -5,7 +5,7 @@ from django.utils import timezone
 from django.db.models import Q, Sum
 from django.http import JsonResponse, HttpResponse
 from django.core.paginator import Paginator
-from datetime import datetime
+from datetime import datetime, time
 import csv
 
 from .models import *
@@ -590,7 +590,37 @@ def staff_export(request, id):
     return response
     
 #============================================================Attendance page=======================================================================   
+#=====attendance checkout pennding===================
+def auto_checkout_pending_attendance():
+
+    today = timezone.localdate()
+
+    pending_attendance = Attendance.objects.filter(
+        log_in__isnull=False,
+        log_out__isnull=True
+    )
+
+    for attendance in pending_attendance:
+
+        if attendance.date < today:
+
+            auto_logout_time = datetime.combine(
+                attendance.date,
+                time(18, 30)   # 6:30 PM
+            )
+
+            auto_logout_time = timezone.make_aware(
+                auto_logout_time
+            )
+
+            attendance.log_out = auto_logout_time
+
+            attendance.save()
+
+
 def attendance_page(request, id):
+
+    auto_checkout_pending_attendance()
 
     staff = get_object_or_404(Staff, id=id)
 
@@ -650,15 +680,11 @@ def attendance_page(request, id):
 #==================================================================staff-checkin page===============================================
 def staff_checkin(request, id):
 
+    auto_checkout_pending_attendance()
+
     staff = Staff.objects.get(id=id)
     today = timezone.localdate()
 
-    old_attendance = Attendance.objects.filter( staff=staff, log_out__isnull=True).order_by('-date').first()
-
-    if old_attendance and old_attendance.date < today:
-        old_attendance.log_out = old_attendance.log_in
-        old_attendance.total_hours = "0h 0m"
-        old_attendance.save()
 
     # ================= TODAY ATTENDANCE =================
     today_attendance = Attendance.objects.filter(staff=staff, date=today).first()
