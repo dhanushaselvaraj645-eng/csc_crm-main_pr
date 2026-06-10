@@ -617,7 +617,7 @@ def auto_checkout_pending_attendance():
 
             attendance.save()
 
-
+#======attendance=========
 def attendance_page(request, id):
 
     auto_checkout_pending_attendance()
@@ -684,7 +684,10 @@ def staff_checkin(request, id):
 
     staff = Staff.objects.get(id=id)
     today = timezone.localdate()
+    
+    current_time = timezone.localtime(timezone.now())
 
+    is_checkout_closed = current_time.time() >= time(19, 0)
 
     # ================= TODAY ATTENDANCE =================
     today_attendance = Attendance.objects.filter(staff=staff, date=today).first()
@@ -736,10 +739,22 @@ def staff_checkin(request, id):
 
         # -------- CHECKOUT --------
         elif action == 'checkout':
-            if attendance.log_in:
+
+            if current_time.time() >= time(19, 0):
+
+                messages.error(
+                request,
+                "Checkout is allowed only until 7:00 PM." )
+
+            elif attendance.log_in:
+
                 attendance.log_out = current_time
+
                 attendance.save()
-                messages.success(request, "Check-Out completed successfully.")
+
+                messages.success(
+                request,
+                "Check-Out completed successfully.")
 
         # -------- LEAVE --------
         elif action == 'leave':
@@ -773,6 +788,8 @@ def staff_checkin(request, id):
         'is_checkin_done': is_checkin_done,
         'is_checkout_done': is_checkout_done,
         'is_leave_or_absent': is_leave_or_absent,
+
+        'is_checkout_closed': is_checkout_closed,
     })
 
 #======================================== DOCUMENT =========================================
