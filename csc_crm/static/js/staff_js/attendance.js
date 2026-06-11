@@ -46,3 +46,27 @@ document.getElementById('attendance-filter-form').addEventListener('submit', fun
     });
 
 });
+
+const menuToggle = document.getElementById("menuToggle");
+const sidebar = document.getElementById("staffSidebar");
+const overlay = document.getElementById("overlay");
+const closeSidebar = document.getElementById("closeSidebar");
+
+if(menuToggle){
+
+    menuToggle.addEventListener("click", () => {
+        sidebar.classList.add("active");
+        overlay.classList.add("active");
+    });
+
+    closeSidebar.addEventListener("click", () => {
+        sidebar.classList.remove("active");
+        overlay.classList.remove("active");
+    });
+
+    overlay.addEventListener("click", () => {
+        sidebar.classList.remove("active");
+        overlay.classList.remove("active");
+    });
+
+}
