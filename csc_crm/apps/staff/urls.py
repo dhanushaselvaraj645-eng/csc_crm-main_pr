@@ -1,5 +1,7 @@
 from django.urls import path
 from .views import *
+from django.urls import path
+from .views import attendance_page, staff_checkin, export_attendance
 
 urlpatterns = [
     path('management/', staff_management, name='staff_management'),
@@ -11,6 +13,10 @@ urlpatterns = [
     # STAFF OVERVIEW URLS
     path('overview/<int:staff_id>', overview, name='overview'),
     path('overview/<int:id>/export/', staff_export, name='staff_export'),
+
+    # EXPORT 
+    path('attendance/export/<int:id>/', export_attendance, name='export_attendance'),
+
     # STAFF ATTENDANCE
     path('attendance/<int:id>/', attendance_page, name='attendance'),
     path('staff-checkin/<int:id>/', staff_checkin, name='staff_checkin'),

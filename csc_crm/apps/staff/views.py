@@ -11,7 +11,9 @@ import csv
 from .models import *
 from .forms import *
 
-
+from django.http import HttpResponse
+from django.shortcuts import get_object_or_404
+from openpyxl import Workbook
 # ============================ LIST-VIEW ============================= 
 
 
@@ -677,6 +679,41 @@ def attendance_page(request, id):
 
     return render(request, 'staff/attendance.html', context)
 
+
+#================export atttendance btn===============
+
+def export_attendance(request, id):
+
+    staff = get_object_or_404(Staff, id=id)
+
+    attendance_data = Attendance.objects.filter(
+        staff=staff
+    ).order_by('-date')
+
+    wb = Workbook()
+    ws = wb.active
+    ws.title = "Attendance"
+
+    ws.append(["Date", "Log In", "Log Out", "Status", "Hours"])
+
+    for a in attendance_data:
+        ws.append([
+            str(a.date),
+            a.log_in.strftime("%I:%M %p") if a.log_in else "--",
+            a.log_out.strftime("%I:%M %p") if a.log_out else "--",
+            a.status,
+            str(a.total_hours) if a.total_hours else "--"
+        ])
+
+    response = HttpResponse(
+        content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    )
+
+    response['Content-Disposition'] = f'attachment; filename=attendance_{staff.employee_id}.xlsx'
+
+    wb.save(response)
+
+    return response
 #==================================================================staff-checkin page===============================================
 def staff_checkin(request, id):
 
