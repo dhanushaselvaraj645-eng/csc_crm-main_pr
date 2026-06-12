@@ -837,8 +837,9 @@ text-decoration:none;
 }
 
 .staff-sidebar a:hover{
-    background:#facc15;
-    color:#050580;
+   background:rgba(255,255,255,0.12);
+    color:white;
+    transform:translateX(5px);
 }
 
 
@@ -847,6 +848,7 @@ text-decoration:none;
 .sidebar-active{
     background:#facc15;
     color:#050580 !important;
+    font-weight:700;
 }
 
 
