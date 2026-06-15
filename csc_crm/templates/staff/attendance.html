@@ -29,9 +29,10 @@
     <button id="menuToggle" class="menu-btn">☰ </button>
 
     <h1>Attendance</h1>
-
+     
+    {% if staff.status != 'terminated' %}
     <a class="staff-checkin-btn" href="{% url 'staff_checkin' staff.id %}">Staff Check-In</a>
-
+    {% endif %}
     </div>
 
     <!-- Overlay -->
