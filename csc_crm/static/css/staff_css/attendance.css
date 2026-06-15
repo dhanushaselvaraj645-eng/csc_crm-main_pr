@@ -753,8 +753,8 @@ text-decoration:none;
 /* ====================MENU BUTTON======================== */
 
 .menu-btn{
-    background:#facc15;
-    color:#050580;
+    background:#FEF200;
+    color:#262170;
     border:none;
     padding:12px 18px;
     border-radius:10px;
@@ -765,7 +765,7 @@ text-decoration:none;
 }
 
 .menu-btn:hover{
-    background:rgb(241, 233, 118);
+    background:rgb(249, 239, 102);
     transform:translateY(-2px);
 }
 
@@ -784,7 +784,7 @@ text-decoration:none;
     width:300px;
     height:100vh;
 
-    background:#050580;
+    background:#262170;
 
     padding:25px 20px;
 
@@ -807,7 +807,7 @@ text-decoration:none;
 .close-btn{
     background:none;
     border:none;
-    color:white;
+    color:#ffffff;
     font-size:28px;
     cursor:pointer;
     margin-bottom:25px;
@@ -839,27 +839,30 @@ text-decoration:none;
 .staff-sidebar a:hover{
    background:rgba(255,255,255,0.12);
     color:white;
-    transform:translateX(5px);
+
 }
 
 
 /* =========================== ACTIVE LINK========================= */
 
 .sidebar-active{
-    background:#facc15;
-    color:#050580 !important;
+    background:#FEF200;
+    color:black !important;
     font-weight:700;
 }
 
-
+.sidebar-active:hover{
+    background: rgba(255,255,255,0.12) !important;
+    color:white !important;
+}
 /* =========================== EDIT BUTTON========================= */
 
 .edit-staff-btn{
     margin-top:25px;
 
-    background:#facc15;
+    background:#FEF200;
 
-    color:#050580 !important;
+    color:black !important;
 
     text-align:center;
 
@@ -867,7 +870,7 @@ text-decoration:none;
 }
 
 .edit-staff-btn:hover{
-    background:rgb(245, 236, 108) !important;
+    background:#FEF200 !important;
 }
 
 

@@ -1,5 +1,3 @@
-from urllib import request
-
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -781,26 +779,25 @@ def staff_checkin(request, id):
 
             if current_time.time() >= time(19, 0):
 
-                messages.error(request,"Checkout is allowed only until 7:00 PM.")
+                messages.error(
+                request,
+                "Checkout is allowed only until 7:00 PM." )
 
             elif attendance.log_in:
 
-                worked_time = current_time - attendance.log_in
+                attendance.log_out = current_time
+
+                worked_time = attendance.log_out - attendance.log_in
 
                 worked_hours = worked_time.total_seconds() / 3600
 
                 if worked_hours < 4:
 
-                   messages.error(request,"Minimum 4 working hours required before checkout." )
+                    attendance.status = 'Absent'
 
-                else:
+                attendance.save()
 
-                    attendance.log_out = current_time
-
-                    attendance.save()
-
-                    messages.success(request,"Check-Out completed successfully.")
-
+                messages.success(request,"Check-Out completed successfully.")
         # -------- LEAVE --------
         elif action == 'leave':
             attendance.status = 'Leave'
