@@ -632,7 +632,15 @@ def attendance_page(request, id):
     today_attendance = Attendance.objects.filter(staff=staff,date=today ).first()
 
     today_status = today_attendance.status if today_attendance else 'Absent'
+    
+    show_checkout = False
 
+    if (
+       today_attendance and
+       today_attendance.log_in and
+       not today_attendance.log_out):
+
+       show_checkout = True
     # ================= HISTORY =================
     attendance_data = Attendance.objects.filter( staff=staff).order_by('-date')
 
@@ -674,6 +682,7 @@ def attendance_page(request, id):
         'attendance_percentage': attendance_percentage,
         'today_status': today_status,
         'today_attendance': today_attendance,
+        'show_checkout': show_checkout,
         'staff': staff,
     }
 

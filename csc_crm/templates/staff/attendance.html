@@ -30,10 +30,38 @@
 
     <h1>Attendance</h1>
      
-    {% if staff.status != 'terminated' %}
-    <a class="staff-checkin-btn" href="{% url 'staff_checkin' staff.id %}">Staff Check-In</a>
+{% if staff.status != 'terminated' %}
+
+    {% if today_attendance and today_attendance.status == 'Leave' %}
+
+        <a class="staff-disabled-btn">
+            On Leave
+        </a>
+
+    {% elif today_attendance and today_attendance.status == 'Absent' %}
+
+        <a class="staff-disabled-btn">
+            Absent
+        </a>
+
+    {% elif show_checkout %}
+
+        <a class="staff-checkout-btn"
+           href="{% url 'staff_checkin' staff.id %}">
+            Staff Check-Out
+        </a>
+
+    {% else %}
+
+        <a class="staff-checkin-btn"
+           href="{% url 'staff_checkin' staff.id %}">
+            Staff Check-In
+        </a>
+
     {% endif %}
-    </div>
+
+{% endif %}
+</div>
 
     <!-- Overlay -->
 <div class="overlay" id="overlay"></div>

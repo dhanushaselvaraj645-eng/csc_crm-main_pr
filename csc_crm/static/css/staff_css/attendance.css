@@ -899,3 +899,30 @@ text-decoration:none;
 }
 
 
+.staff-checkout-btn{
+    background:#dc2626;
+    color:white;
+    text-decoration:none;
+    padding:10px 18px;
+    border-radius:8px;
+    font-weight:600;
+     margin-left:auto;
+}
+
+.staff-checkout-btn:hover{
+    background:#b91c1c;
+}
+
+
+
+.staff-disabled-btn{
+    background:#9ca3af;
+    color:white;
+    text-decoration:none;
+    padding:10px 18px;
+    border-radius:8px;
+    font-weight:600;
+    cursor:not-allowed;
+    pointer-events:none;
+     margin-left:auto;
+}
